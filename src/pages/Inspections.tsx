@@ -20,19 +20,9 @@ const Inspections = () => {
     return inspections.filter(i => i.status === status);
   };
 
-  const inspectionsData = {
-    pending: [
-      { id: 1, area: "Producción", date: "2024-01-15", inspector: "María González", items: 12, status: "pending" },
-      { id: 2, area: "Almacén", date: "2024-01-16", inspector: "Carlos Ruiz", items: 8, status: "pending" },
-    ],
-    inProgress: [
-      { id: 3, area: "Oficinas", date: "2024-01-15", inspector: "Ana López", items: 10, completed: 6, status: "in_progress" },
-    ],
-    completed: [
-      { id: 4, area: "Mantenimiento", date: "2024-01-14", inspector: "Juan Pérez", items: 15, score: 92, status: "completed" },
-      { id: 5, area: "Producción", date: "2024-01-13", inspector: "María González", items: 12, score: 88, status: "completed" },
-    ],
-  };
+  const pendingInspections = getInspectionsByStatus('pending');
+  const inProgressInspections = getInspectionsByStatus('in_progress');
+  const completedInspections = getInspectionsByStatus(['completed', 'incomplete', 'forced_closed']);
 
   const getStatusBadge = (status: InspectionStatus) => {
     const variants = {
@@ -125,7 +115,7 @@ const Inspections = () => {
           </TabsList>
 
           <TabsContent value="pending" className="space-y-4">
-            {inspectionsData.pending.map((inspection) => (
+            {pendingInspections.map((inspection) => (
               <Card key={inspection.id} className="shadow-card hover:shadow-md transition-shadow">
                 <CardContent className="pt-6">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -163,7 +153,7 @@ const Inspections = () => {
           </TabsContent>
 
           <TabsContent value="inProgress" className="space-y-4">
-            {inspectionsData.inProgress.map((inspection) => (
+            {inProgressInspections.map((inspection) => (
               <Card key={inspection.id} className="shadow-card hover:shadow-md transition-shadow">
                 <CardContent className="pt-6">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -213,7 +203,7 @@ const Inspections = () => {
           </TabsContent>
 
           <TabsContent value="completed" className="space-y-4">
-            {inspectionsData.completed.map((inspection) => (
+            {completedInspections.map((inspection) => (
               <Card key={inspection.id} className="shadow-card hover:shadow-md transition-shadow">
                 <CardContent className="pt-6">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

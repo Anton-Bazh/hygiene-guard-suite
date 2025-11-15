@@ -1,8 +1,10 @@
 import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Shield, LayoutDashboard, Package, ClipboardCheck, Bell, Users, Settings } from "lucide-react";
+import { Shield, LayoutDashboard, Package, ClipboardCheck, Users, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { NotificationsDrop } from "@/components/NotificationsDrop";
+import { useAuth } from "@/hooks/useAuth";
 
 interface LayoutProps {
   children: ReactNode;
@@ -10,12 +12,12 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
+  const { user } = useAuth();
 
   const navItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/" },
     { icon: Package, label: "Equipos", path: "/equipment" },
     { icon: ClipboardCheck, label: "Inspecciones", path: "/inspections" },
-    { icon: Bell, label: "Notificaciones", path: "/notifications", badge: 3 },
     { icon: Users, label: "Empleados", path: "/employees" },
   ];
 
@@ -86,6 +88,11 @@ const Layout = ({ children }: LayoutProps) => {
 
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
+        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+          <div className="container mx-auto px-6 py-3 flex items-center justify-end">
+            <NotificationsDrop />
+          </div>
+        </div>
         {children}
       </main>
     </div>

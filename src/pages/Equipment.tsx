@@ -32,6 +32,11 @@ const Equipment = () => {
     { id: 6, name: "Protector Auditivo", code: "EPP-006", category: "Protección Auditiva", stock: 12, minStock: 15, status: "low" },
   ];
 
+  const filteredEquipment = equipment.filter(item =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.code.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const getStockBadge = (status: string) => {
     const variants = {
       available: { variant: "default" as const, text: "Disponible" },
@@ -164,30 +169,33 @@ const Equipment = () => {
                   <TableHead>Mín. Stock</TableHead>
                   <TableHead>Estado</TableHead>
                   <TableHead className="text-right">Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {equipment.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell className="font-medium">{item.code}</TableCell>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.category}</TableCell>
-                    <TableCell>
-                      <span className={`font-bold ${
-                        item.status === 'critical' ? 'text-destructive' :
-                        item.status === 'low' ? 'text-warning' :
-                        'text-foreground'
-                      }`}>
-                        {item.stock}
-                      </span>
-                    </TableCell>
-                    <TableCell>{item.minStock}</TableCell>
-                    <TableCell>{getStockBadge(item.status)}</TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="sm">Ver Detalle</Button>
-                    </TableCell>
                   </TableRow>
-                ))}
+                </TableHeader>
+                <TableBody>
+                  {filteredEquipment.map((item) => {
+                    const status = getStockStatus(item.stock, item.min_stock);
+                    return (
+                      <TableRow key={item.id}>
+                        <TableCell className="font-medium">{item.code}</TableCell>
+                        <TableCell>{item.name}</TableCell>
+                        <TableCell>{item.category}</TableCell>
+                        <TableCell>
+                          <span className={`font-bold ${
+                            item.status === 'critical' ? 'text-destructive' :
+                            item.status === 'low' ? 'text-warning' :
+                            'text-foreground'
+                          }`}>
+                            {item.stock}
+                          </span>
+                        </TableCell>
+                        <TableCell>{item.minStock}</TableCell>
+                        <TableCell>{getStockBadge(item.status)}</TableCell>
+                        <TableCell className="text-right">
+                          <Button variant="ghost" size="sm">Ver Detalle</Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
               </TableBody>
             </Table>
           </CardContent>

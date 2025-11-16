@@ -172,9 +172,7 @@ const Equipment = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredEquipment.map((item) => {
-                    const status = getStockStatus(item.stock, item.min_stock);
-                    return (
+                  {filteredEquipment.map((item) => (
                       <TableRow key={item.id}>
                         <TableCell className="font-medium">{item.code}</TableCell>
                         <TableCell>{item.name}</TableCell>
@@ -194,8 +192,7 @@ const Equipment = () => {
                           <Button variant="ghost" size="sm">Ver Detalle</Button>
                         </TableCell>
                       </TableRow>
-                    );
-                  })}
+                  ))}
               </TableBody>
             </Table>
           </CardContent>
